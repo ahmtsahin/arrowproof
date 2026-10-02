@@ -17,7 +17,11 @@
 
 The result: 15 arrows verified. 1 arrow is indirect, because `app.py` reaches `config.py` only through `sansio/app.py`. 2 arrows have no import behind them, because `views.py` imports only `globals.py` and the type aliases in `typing.py`. 1 box points to `blueprint.py`, a file that does not exist (the real file is `blueprints.py`). Claude Opus drew the same architecture with 20 arrows, and all 20 passed. Both runs are in [`examples/flask`](examples/flask).
 
-**Live demo:** [the Flask architecture as a step-by-step explainer](https://ahmtsahin.github.io/arrowproof/examples/flask/opus.explainer.html#play=1), with the import lines behind every arrow.
+**Try it live, with nothing to install:**
+
+- [The Flask architecture as a step-by-step explainer](https://ahmtsahin.github.io/arrowproof/examples/flask/opus.explainer.html#play=1), with the import lines behind every arrow.
+- [The evidence report for the Haiku diagram](https://ahmtsahin.github.io/arrowproof/examples/flask/haiku.report.html). Click an arrow to see why it passed or failed.
+- [The checked Haiku diagram in Excalidraw](https://excalidraw.com/#url=https://raw.githubusercontent.com/ahmtsahin/arrowproof/main/examples/flask/haiku.verified.excalidraw), ready to edit.
 
 ## What it does
 
@@ -31,7 +35,7 @@ The result: 15 arrows verified. 1 arrow is indirect, because `app.py` reaches `c
 
 It reads Python and JavaScript/TypeScript: `tsconfig` paths, workspace packages, `require` and `import()`. It uses the Python standard library only. There is nothing to install.
 
-<img src="docs/report.png" alt="The evidence report. A click on an arrow shows why it passed or failed.">
+<a href="https://ahmtsahin.github.io/arrowproof/examples/flask/haiku.report.html"><img src="docs/report.png" alt="The evidence report. A click on an arrow shows why it passed or failed."></a>
 
 ## Install
 

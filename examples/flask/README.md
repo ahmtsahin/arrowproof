@@ -27,6 +27,8 @@ Files:
 - `*.summary.txt`: the text that the agent sees
 - `opus.explainer.html`: a step-by-step tour of the Opus diagram, built from the verified arrows alone
 
+Open them in the browser: the reports for [Haiku](https://ahmtsahin.github.io/arrowproof/examples/flask/haiku.report.html) and [Opus](https://ahmtsahin.github.io/arrowproof/examples/flask/opus.report.html), [the Opus explainer](https://ahmtsahin.github.io/arrowproof/examples/flask/opus.explainer.html#play=1), and the checked diagrams in Excalidraw for [Haiku](https://excalidraw.com/#url=https://raw.githubusercontent.com/ahmtsahin/arrowproof/main/examples/flask/haiku.verified.excalidraw) and [Opus](https://excalidraw.com/#url=https://raw.githubusercontent.com/ahmtsahin/arrowproof/main/examples/flask/opus.verified.excalidraw).
+
 To run the check yourself:
 
 ```bash
