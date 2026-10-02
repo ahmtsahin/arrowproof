@@ -39,7 +39,7 @@ A box maps to code through `paths` or `packages`. Paths are files, folders or gl
               {"from": "api", "to": "orders"},
               {"from": "orders", "to": "pg", "label": "queries"}]}
    ```
-   The script does the layout. Leave `direction` out, and it picks left to right or top to bottom, whichever fits a wide screen better. Set `"direction": "LR"` or `"TB"` only when the user asks for one. Keep labels short: the script wraps them, but a long label makes a large box.
+   The script does the layout. Leave `direction` out, and it picks left to right or top to bottom, whichever fits a wide screen better. Set `"direction": "LR"` or `"TB"` only when the user asks for one. Keep labels short: the script wraps them and makes room for each arrow label, but a long label makes a large box or pushes the arrows apart.
 4. Check the spec and render it:
    `python3 <skill>/scripts/verify.py architecture.spec.json --repo <repo>`
 5. Fix every ✗ and ⇄. Remove the arrow, reverse it, or map the box again. For a ↝ indirect arrow, either add the box in between or keep the arrow and tell the user that it is a shortcut. Run the check again until the summary shows no problems. Do not mark an arrow `skip` only to make it pass.

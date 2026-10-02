@@ -429,9 +429,17 @@ def marked_copy(data: dict, result: dict, keep_colors: bool, draw_undrawn: int) 
         notes = {"not_in_code": "✗ not in code", "reversed": "⇄ reversed in code",
                  "indirect": "↝ via " + ", ".join(_short(p) for p in row.get("via", [])[:2])}
         if row["verdict"] in notes:
-            mx, my = dg.midpoint(el)
-            added.append(dg.new_text(notes[row["verdict"]], mx + 8, my + 6, 16,
-                                     dg.COLORS[row["verdict"]],
+            note = notes[row["verdict"]]
+            label = next((by_id[b["id"]] for b in el.get("boundElements") or []
+                          if isinstance(b, dict) and b.get("type") == "text"
+                          and by_id.get(b.get("id"), {}).get("containerId") == el.get("id")), None)
+            if label:   # under the label of the arrow, not on top of it
+                ax, ay = dg.label_anchor(el)
+                x, y = ax - dg.text_size(note, 16)[0] / 2, ay + float(label.get("height") or 0) / 2 + 4
+            else:
+                mx, my = dg.midpoint(el)
+                x, y = mx + 8, my + 6
+            added.append(dg.new_text(note, x, y, 16, dg.COLORS[row["verdict"]],
                                      customData={"arrowproof": {"note_for": row["id"]}}))
     for row in result["nodes"]:
         el = by_id.get(row["id"])

@@ -182,8 +182,18 @@ def _linear(e: dict, interactive: bool) -> str:
     return "".join(parts)
 
 
+def _on_arrow(text: dict, arrow: dict) -> dict:
+    """Excalidraw draws an arrow label at the middle of the arrow, whatever x
+    and y the file stores, so the preview does the same."""
+    ax, ay = dg.label_anchor(arrow)
+    return {**text, "x": ax - float(text.get("width") or 0) / 2, "y": ay - float(text.get("height") or 0) / 2}
+
+
 def svg(elements: list, interactive: bool = False, pad: float = 40) -> str:
     els = [e for e in elements if isinstance(e, dict) and e.get("id") and not e.get("isDeleted")]
+    arrows = {e["id"]: e for e in els if e.get("type") == "arrow"}
+    els = [_on_arrow(e, arrows[e["containerId"]]) if e.get("type") == "text" and e.get("containerId") in arrows
+           else e for e in els]
     boxes = [dg.bbox(e) for e in els]
     if not boxes:
         return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"></svg>'
@@ -196,6 +206,7 @@ def svg(elements: list, interactive: bool = False, pad: float = 40) -> str:
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{_n(x0)} {_n(y0)} {_n(w)} {_n(h)}" '
            f'width="{_n(w)}" height="{_n(h)}" role="img">',
            f'<rect class="bg" x="{_n(x0)}" y="{_n(y0)}" width="{_n(w)}" height="{_n(h)}" fill="#ffffff"/>']
+    labels = []    # arrow labels go on top, on a white patch, as Excalidraw cuts the line under them
     for e in els:
         kind = e.get("type")
         if kind in ("arrow", "line", "freedraw"):
@@ -203,18 +214,22 @@ def svg(elements: list, interactive: bool = False, pad: float = 40) -> str:
         elif kind == "text":
             body = _text(e)
             owner = e.get("containerId")
+            if owner in arrow_ids:
+                body = (f'<rect x="{_n(e["x"] - 4)}" y="{_n(e["y"] - 2)}" width="{_n(float(e.get("width") or 0) + 8)}" '
+                        f'height="{_n(float(e.get("height") or 0) + 4)}" rx="4" fill="#ffffff"/>{body}')
             meta = (e.get("customData") or {}).get("arrowproof") if isinstance(e.get("customData"), dict) else None
             note_for = meta.get("note_for") if isinstance(meta, dict) else None
             target = owner if owner in shape_ids | arrow_ids else note_for
             if interactive and target:
                 body = f'<g class="ap-text" data-for="{_esc(target)}">{body}</g>'
-            out.append(body)
+            (labels if owner in arrow_ids else out).append(body)
         elif kind in dg.SHAPES:
             body = _shape(e)
             if interactive:
                 body = (f'<g class="ap-node" data-id="{_esc(e["id"])}" tabindex="0" role="button" '
                         f'aria-label="box">{body}</g>')
             out.append(body)
+    out += labels
     out.append("</svg>")
     return "".join(out)
 

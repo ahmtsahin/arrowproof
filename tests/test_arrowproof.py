@@ -16,6 +16,7 @@ sys.path.insert(0, str(SCRIPTS))
 import diagram as dg  # noqa: E402
 import explain  # noqa: E402
 import graph as graph_cli  # noqa: E402
+import render  # noqa: E402
 import verify  # noqa: E402
 from codegraph import build_graph, is_builtin, js_imports, strip_js_comments  # noqa: E402
 
@@ -503,6 +504,71 @@ class BuildTest(unittest.TestCase):
     def test_unknown_edge_is_rejected(self):
         with self.assertRaises(ValueError):
             dg.build({"nodes": [{"id": "a"}], "edges": [{"from": "a", "to": "b"}]})
+
+
+FAN = {
+    "nodes": [{"id": "hub", "label": "Hub"}] + [{"id": f"t{i}", "label": f"Target {i}"} for i in range(5)]
+             + [{"id": "mid", "label": "Middle"}, {"id": "end", "label": "End"}],
+    "edges": [{"from": "hub", "to": f"t{i}", "label": f"calls handler number {i}"} for i in range(5)]
+             + [{"from": "t0", "to": "mid", "label": "next"}, {"from": "mid", "to": "end"},
+                {"from": "hub", "to": "mid", "label": "skips one layer"},
+                {"from": "hub", "to": "end", "label": "skips two layers"}],
+}
+
+
+class LabelTest(unittest.TestCase):
+    def test_labels_sit_where_excalidraw_draws_them_and_never_overlap(self):
+        def hit(a, b):
+            return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+        for direction in ("TB", "LR"):
+            els = {e["id"]: e for e in dg.build({**FAN, "direction": direction})["elements"]}
+            boxes = [dg.bbox(e) for e in els.values() if e["type"] in ("rectangle", "ellipse")]
+            labels = []
+            for t in els.values():
+                arrow = els.get(t.get("containerId"))
+                if t["type"] != "text" or not arrow or arrow["type"] != "arrow":
+                    continue
+                # Excalidraw ignores the stored x and y and draws the label at the middle point
+                self.assertEqual(len(arrow["points"]) % 2, 1)
+                ax, ay = dg.label_anchor(arrow)
+                self.assertAlmostEqual(t["x"] + t["width"] / 2, ax)
+                self.assertAlmostEqual(t["y"] + t["height"] / 2, ay)
+                labels.append(dg.bbox(t))
+            self.assertEqual(len(labels), 8)
+            for i, a in enumerate(labels):
+                self.assertFalse(any(hit(a, b) for b in labels[:i]), direction)
+                self.assertFalse(any(hit(a, b) for b in boxes), direction)
+
+    def test_spread_moves_only_what_overlaps(self):
+        self.assertEqual(dg._spread([0, 100, 105, 300], [50, 50, 50, 50], 10), [0, 72.5, 132.5, 300])
+        self.assertEqual(dg._spread([5, 1], [2, 2], 0), [5, 1])
+
+    def test_preview_draws_an_arrow_label_where_excalidraw_does(self):
+        arrow = {"id": "a", "type": "arrow", "x": 0, "y": 0, "points": [[0, 0], [0, 300]],
+                 "endArrowhead": "arrow", "boundElements": [{"type": "text", "id": "t"}]}
+        label = {"id": "t", "type": "text", "x": -40, "y": 65, "width": 80, "height": 20,
+                 "text": "LABEL", "fontSize": 14, "containerId": "a"}   # stored at a quarter of the arrow
+        svg = render.svg([label, arrow])
+        self.assertIn('<rect x="-44" y="138"', svg)                    # drawn at the middle, on a white patch
+        self.assertGreater(svg.index("LABEL"), svg.index('class="vis"'))  # and on top of the line
+
+    def test_a_note_goes_under_the_label(self):
+        spec = {"nodes": [{"id": "a", "label": "A", "paths": ["a.py"]}, {"id": "b", "label": "B", "paths": ["b.py"]}],
+                "edges": [{"from": "a", "to": "b", "label": "calls b"}]}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = make_repo(Path(tmp) / "repo", {"a.py": "x = 1\n", "b.py": "y = 2\n"})
+            path = Path(tmp) / "pair.spec.json"
+            path.write_text(json.dumps(spec), encoding="utf-8")
+            result = verify.run(str(path), str(root), report=False)
+            els = {e["id"]: e for e in json.loads(
+                Path(result["outputs"]["excalidraw"]).read_text(encoding="utf-8"))["elements"]}
+        label = next(e for e in els.values() if e["type"] == "text"
+                     and els.get(e.get("containerId"), {}).get("type") == "arrow")
+        note = next(e for e in els.values() if e.get("text") == "✗ not in code")
+        ax, ay = dg.label_anchor(els[label["containerId"]])
+        self.assertGreaterEqual(note["y"], ay + label["height"] / 2)
+        self.assertAlmostEqual(note["x"] + note["width"] / 2, ax)
 
 
 class CliTest(unittest.TestCase):

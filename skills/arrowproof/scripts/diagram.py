@@ -271,6 +271,37 @@ def midpoint(el: dict) -> tuple:
     return el["x"] + pts[-1][0], el["y"] + pts[-1][1]
 
 
+def label_anchor(el: dict) -> tuple:
+    """Where Excalidraw draws the label of an arrow, whatever x and y it stores.
+
+    With an odd number of points it is the middle point. Otherwise it is the
+    middle of the middle segment, on the curve when the arrow is round.
+    """
+    pts = el.get("points") or [[0, 0]]
+    x, y, n = el.get("x", 0), el.get("y", 0), len(pts)
+    if n % 2:
+        return x + pts[n // 2][0], y + pts[n // 2][1]
+    i = n // 2 - 1
+    p, q = pts[i], pts[i + 1]
+    if n > 2 and el.get("roundness"):
+        p0 = pts[i - 1] if i > 0 else p
+        p3 = pts[i + 2] if i + 2 < n else q
+        c1 = (p[0] + (q[0] - p0[0]) / 6, p[1] + (q[1] - p0[1]) / 6)
+        c2 = (q[0] - (p3[0] - p[0]) / 6, q[1] - (p3[1] - p[1]) / 6)
+        return (x + (p[0] + 3 * c1[0] + 3 * c2[0] + q[0]) / 8,
+                y + (p[1] + 3 * c1[1] + 3 * c2[1] + q[1]) / 8)
+    return x + (p[0] + q[0]) / 2, y + (p[1] + q[1]) / 2
+
+
+def _collinear(pts: list, tolerance: float = 0.5) -> bool:
+    (x0, y0), (x1, y1) = pts[0], pts[-1]
+    length = math.hypot(x1 - x0, y1 - y0)
+    if not length:
+        return False
+    return all(abs((x1 - x0) * (y0 - y) - (x0 - x) * (y1 - y0)) / length <= tolerance
+               for x, y in pts[1:-1])
+
+
 def _boundary(el: dict, toward: tuple, gap: float = 6) -> tuple:
     cx, cy = center(el)
     dx, dy = toward[0] - cx, toward[1] - cy
@@ -302,7 +333,7 @@ def connect(src_el: dict, dst_el: dict, waypoints: list | None = None, **extra) 
         startBinding={"elementId": src_el["id"], "focus": 0, "gap": 6},
         endBinding={"elementId": dst_el["id"], "focus": 0, "gap": 6},
         startArrowhead=None, endArrowhead="arrow", elbowed=False,
-        roundness={"type": 2} if way else None, **extra)
+        roundness={"type": 2} if way and not _collinear(pts) else None, **extra)
     for el in (src_el, dst_el):
         el.setdefault("boundElements", [])
         if el["boundElements"] is None:
@@ -313,7 +344,7 @@ def connect(src_el: dict, dst_el: dict, waypoints: list | None = None, **extra) 
 
 def label_arrow(arrow: dict, text: str, size: float = 14, color: str = COLORS["ink"]) -> dict:
     text = _wrap(text, 24)
-    mx, my = midpoint(arrow)
+    mx, my = label_anchor(arrow)
     w, h = text_size(text, size)
     label = new_text(text, mx - w / 2, my - h / 2, size, color, container=arrow["id"], align="center")
     arrow.setdefault("boundElements", [])
@@ -385,6 +416,29 @@ def _order(groups: list, succ: dict, pred: dict) -> None:
             reorder(g, pred)
         for g in reversed(groups[:-1]):
             reorder(g, succ)
+
+
+def _spread(desired: list, sizes: list, gap: float) -> list:
+    """Centers on one line, each as near its desired place as it can be with
+    no overlap. Overlapping neighbours merge into a block centered on their
+    mean, until no two blocks overlap."""
+    blocks = []                      # [items, offsets from the first center, first center]
+    for i in sorted(range(len(desired)), key=lambda i: desired[i]):
+        block = [[i], [0.0], float(desired[i])]
+        while blocks:
+            items, offs, x = blocks[-1]
+            reach = offs[-1] + sizes[items[-1]] / 2 + gap + sizes[block[0][0]] / 2
+            if x + reach <= block[2]:
+                break
+            blocks.pop()
+            items, offs = items + block[0], offs + [reach + o for o in block[1]]
+            block = [items, offs, sum(desired[j] - o for j, o in zip(items, offs)) / len(items)]
+        blocks.append(block)
+    out = [0.0] * len(desired)
+    for items, offs, x in blocks:
+        for j, o in zip(items, offs):
+            out[j] = x + o
+    return out
 
 
 def _wrap(text: str, width: int) -> str:
@@ -477,15 +531,36 @@ def _build(spec: dict, horizontal: bool) -> dict:
     slot_extent = 8
     gap_main, gap_cross = 150, 48
 
+    # A label takes room in the layout, as an edge label does in dot. It sits
+    # on the middle point of its arrow, which is where Excalidraw draws it:
+    # in the middle slot of a long arrow, or else in the gap between layers.
+    room, in_gap = {}, {}
+    for k, e in enumerate(edges):
+        if not e.get("label") or chains[k] is None:
+            continue
+        chain = chains[k][0]
+        span = len(chain) - 1
+        w, h = text_size(_wrap(str(e["label"]), 24), 14)
+        if span % 2:
+            in_gap[k] = layer[chain[0]] + span // 2
+            room[f"~L{k}"] = (w + 12, h + 8)
+        else:
+            room[chain[span // 2]] = (w + 12, h + 8)
+
     def along(s):    # size in the direction of the flow
-        return boxes[s][0 if horizontal else 1] if s in boxes else 0
+        size_ = boxes.get(s) or room.get(s)
+        return size_[0 if horizontal else 1] if size_ else 0
 
     def across(s):   # size across the flow
-        return boxes[s][1 if horizontal else 0] if s in boxes else slot_extent
+        size_ = boxes.get(s) or room.get(s)
+        return size_[1 if horizontal else 0] if size_ else slot_extent
 
     lengths = [max((along(s) for s in g), default=0) for g in groups]
     extents = [sum(across(s) for s in g) + gap_cross * (len(g) - 1) for g in groups]
     widest = max(extents, default=0)
+    gaps = [gap_main] * len(groups)
+    for k, g in in_gap.items():
+        gaps[g] = max(gaps[g], along(f"~L{k}") + 60)
 
     elements, shapes, centers = [], {}, {}
     title_h = 0
@@ -493,8 +568,9 @@ def _build(spec: dict, horizontal: bool) -> dict:
         title = new_text(spec["title"], 0, 0, 28, id="ap-title")
         elements.append(title)
         title_h = title["height"] + 48
-    offset = 0.0
-    for g, length, extent in zip(groups, lengths, extents):
+    offset, starts = 0.0, []
+    for g, length, extent, gap in zip(groups, lengths, extents, gaps):
+        starts.append(offset)
         cursor = (widest - extent) / 2
         for s in g:
             mid_main = offset + length / 2
@@ -512,14 +588,34 @@ def _build(spec: dict, horizontal: bool) -> dict:
                 shapes[s] = shape
                 elements += [shape, label]
             cursor += across(s) + gap_cross
-        offset += length + gap_main
+        offset += length + gap
+
+    # Labels in a gap start where their arrow would cross the middle of the
+    # gap, then move apart along it until no two overlap.
+    main = 0 if horizontal else 1          # the axis of the flow, in (x, y)
+    by_gap = defaultdict(list)
+    for k, g in in_gap.items():
+        by_gap[g].append(k)
+    for g, ks in by_gap.items():
+        line = starts[g] + lengths[g] + gaps[g] / 2 + (0 if horizontal else title_h)
+        desired = []
+        for k in ks:
+            chain = chains[k][0]
+            p, q = centers[chain[(len(chain) - 2) // 2]], centers[chain[len(chain) // 2]]
+            t = (line - p[main]) / (q[main] - p[main]) if q[main] != p[main] else 0.5
+            desired.append(p[1 - main] + t * (q[1 - main] - p[1 - main]))
+        for k, c in zip(ks, _spread(desired, [across(f"~L{k}") for k in ks], 8)):
+            centers[f"~L{k}"] = (line, c) if horizontal else (c, line)
 
     parallel = defaultdict(int)
     for k, e in enumerate(edges):
         if chains[k] is None:
             continue
         chain, flipped = chains[k]
-        way = [centers[s] for s in chain[1:-1]]
+        inner = list(chain[1:-1])
+        if k in in_gap:
+            inner.insert((len(chain) - 2) // 2, f"~L{k}")
+        way = [centers[s] for s in inner]
         if flipped:
             way.reverse()
         key = frozenset((e["from"], e["to"]))
