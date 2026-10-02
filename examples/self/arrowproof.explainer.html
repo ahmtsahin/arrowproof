@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arrowproof checks its own diagram · arrowproof</title>
+<style>
+:root{--bg:#f4f3ee;--fg:#1c1c1a;--muted:#6b6a64;--card:#fff;--line:#e3e1d9;--soft:#f6f5f0;--accent:#1971c2;
+--ok:#2f9e44;--ind:#0c8599;--bad:#e03131;--rev:#d9480f;--gray:#868e96;--add:#9c36b5;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121211;--fg:#ecebe5;--muted:#a19f98;
+--card:#1c1c1a;--line:#33322e;--soft:#232321;--accent:#74c0fc;--ok:#51cf66;--ind:#3bc9db;--bad:#ff6b6b;
+--rev:#ff922b;--gray:#adb5bd;--add:#da77f2;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121211;--fg:#ecebe5;--muted:#a19f98;--card:#1c1c1a;--line:#33322e;--soft:#232321;
+--accent:#74c0fc;--ok:#51cf66;--ind:#3bc9db;--bad:#ff6b6b;--rev:#ff922b;--gray:#adb5bd;--add:#da77f2;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+display:flex;flex-direction:column;min-height:100vh}
+header,main,.bar{width:100%;max-width:1760px;margin:0 auto;padding-left:20px;padding-right:20px}
+header{padding-top:18px;padding-bottom:10px}
+.brand{font:600 12px/1 ui-monospace,"Cascadia Code",Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:22px;line-height:1.25;margin:8px 0 0;letter-spacing:-.01em;word-break:break-word}
+main{flex:1;display:grid;grid-template-columns:minmax(0,2.2fr) minmax(320px,1fr);gap:16px;padding-bottom:12px;min-height:0}
+.paper{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;height:calc(100vh - 190px);min-height:380px}
+.paper svg{display:block;width:100%;height:100%}
+.paper svg > *{transition:opacity .4s ease}
+.paper svg.focus > *:not(.on):not(.bg){opacity:.1}
+.ap-edge.on.v-verified .vis,.ap-edge.on.v-indirect .vis{stroke-dasharray:12 9;animation:march 1.1s linear infinite}
+@keyframes march{to{stroke-dashoffset:-21}}
+.narration{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px 18px;overflow:auto;
+height:calc(100vh - 190px);min-height:380px;display:flex;flex-direction:column;min-width:0}
+.narration .text,.claim .pair,.claim .why,h1,.narration h2{overflow-wrap:anywhere}
+.stepno{font:600 12px/1 ui-monospace,"Cascadia Code",Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.narration h2{font-size:23px;line-height:1.25;margin:12px 0 10px;letter-spacing:-.01em}
+.narration .text{font-size:17px;line-height:1.6;margin:0 0 18px}
+.claims{display:grid;gap:10px;margin:0 0 8px}
+.claim{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:10px 12px;background:var(--soft)}
+.claim .head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.claim .badge{font-size:12.5px;font-weight:650;color:var(--c);white-space:nowrap}
+.claim .pair{font-weight:600;font-size:14.5px}
+.claim .why{margin:6px 0 0;color:var(--muted);font-size:14px}
+.ev{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.ev li{display:grid;gap:2px}
+.ev .loc{font:12px/1.3 ui-monospace,"Cascadia Code",Consolas,monospace;color:var(--muted)}
+.ev code{font:12.8px/1.45 ui-monospace,"Cascadia Code",Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.section-label{font-size:12px;font-weight:650;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:4px 0 8px}
+.hint{margin-top:auto;padding-top:14px;color:var(--muted);font-size:12.5px}
+footer{position:sticky;bottom:0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:10px;padding-top:10px;padding-bottom:10px}
+.ctl{appearance:none;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;height:40px;min-width:40px;
+padding:0 16px;font:600 14px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.ctl:hover{border-color:var(--accent)}
+.ctl:focus-visible,.dots button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ctl.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ctl.primary{color:#0b1b2b}}
+.track{flex:1;display:grid;gap:6px;min-width:0}
+.dots{display:flex;gap:5px;margin:0;padding:0;list-style:none}
+.dots li{flex:1;min-width:0}
+.dots button{display:block;width:100%;height:8px;border:0;border-radius:4px;background:var(--line);cursor:pointer;padding:0}
+.dots button.done{background:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.dots button.cur{background:var(--accent)}
+.timer{height:2px;background:transparent;border-radius:2px;overflow:hidden}
+.timer span{display:block;height:100%;width:0;background:var(--accent)}
+@media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}.paper{height:50vh;min-height:300px}.narration{height:auto;min-height:0}
+header,main,.bar{padding-left:16px;padding-right:16px}
+.ctl .label{display:none}.ctl{padding:0 12px}}
+@media (prefers-reduced-motion:reduce){.paper svg > *{transition:none}.ap-edge.on .vis{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">arrowproof · explainer</div>
+  <h1 id="doc-title"></h1>
+</header>
+<main>
+  <div class="paper" id="paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -96 1123.2 1359" width="1123.2" height="1359" role="img"><rect class="bg" x="-40" y="-96" width="1123.2" height="1359" fill="#ffffff"/><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="28" fill="#1e1e1e" text-anchor="start"><tspan x="0" y="27.3">arrowproof checks its own diagram</tspan></text><g class="ap-node" data-id="ap-node-build" tabindex="0" role="button" aria-label="box"><rect x="0" y="83" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-build"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="196.8" y="118.5">build.py: lay out a spec</tspan><tspan x="196.8" y="141.1">skills/arrowproof/scripts/build.</tspan><tspan x="196.8" y="163.6">py</tspan></text></g><g class="ap-node" data-id="ap-node-tests" tabindex="0" role="button" aria-label="box"><rect x="441.6" y="94.2" width="160" height="81" rx="20.2" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-tests"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="521.6" y="129.8">Tests</tspan><tspan x="521.6" y="152.3">tests</tspan></text></g><g class="ap-node" data-id="ap-node-graph" tabindex="0" role="button" aria-label="box"><rect x="649.6" y="83" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-graph"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="846.4" y="118.5">graph.py: print the graph</tspan><tspan x="846.4" y="141.1">skills/arrowproof/scripts/graph.</tspan><tspan x="846.4" y="163.6">py</tspan></text></g><g class="ap-node" data-id="ap-node-explain" tabindex="0" role="button" aria-label="box"><rect x="324.8" y="336.5" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-explain"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="521.6" y="372.1">explain.py: explainer page</tspan><tspan x="521.6" y="394.6">skills/arrowproof/scripts/explai</tspan><tspan x="521.6" y="417.1">n.py</tspan></text></g><g class="ap-node" data-id="ap-node-verify" tabindex="0" role="button" aria-label="box"><rect x="408.8" y="590" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-verify"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="605.6" y="625.5">verify.py: check a diagram</tspan><tspan x="605.6" y="648">skills/arrowproof/scripts/verify</tspan><tspan x="605.6" y="670.5">.py</tspan></text></g><g class="ap-node" data-id="ap-node-render" tabindex="0" role="button" aria-label="box"><rect x="76" y="843.5" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-render"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="272.8" y="879">render.py: SVG and report</tspan><tspan x="272.8" y="901.5">skills/arrowproof/scripts/render</tspan><tspan x="272.8" y="924">.py</tspan></text></g><g class="ap-node" data-id="ap-node-codegraph" tabindex="0" role="button" aria-label="box"><rect x="629.6" y="843.5" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-codegraph"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="826.4" y="879">codegraph.py: import graph</tspan><tspan x="826.4" y="901.5">skills/arrowproof/scripts/codegr</tspan><tspan x="826.4" y="924">aph.py</tspan></text></g><g class="ap-node" data-id="ap-node-diagram" tabindex="0" role="button" aria-label="box"><rect x="324.8" y="1097" width="393.6" height="126" rx="31.5" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-diagram"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="521.6" y="1132.5">diagram.py: Excalidraw</tspan><tspan x="521.6" y="1155">files</tspan><tspan x="521.6" y="1177.5">skills/arrowproof/scripts/diagra</tspan><tspan x="521.6" y="1200">m.py</tspan></text></g><g class="ap-edge" data-id="ap-edge-0" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M654.6 698 L777.4 839" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M654.6 698 L777.4 839" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M772.9 822.6 L777.4 839 L761.8 832.3" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-1" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M599.2 699.5 C595.6 732.1 588.1 830 577.6 895.2 C567.1 960.5 543.1 1058.5 536.2 1091.1" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M599.2 699.5 C595.6 732.1 588.1 830 577.6 895.2 C567.1 960.5 543.1 1058.5 536.2 1091.1" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M546.6 1077.7 L536.2 1091.1 L532.1 1074.6" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-2" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M532.9 697.1 L345.5 839.9" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M532.9 697.1 L345.5 839.9" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M362.2 836.5 L345.5 839.9 L353.2 824.7" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-3" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M540.6 445.7 L586.6 584.3" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M540.6 445.7 L586.6 584.3" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M588.8 567.4 L586.6 584.3 L574.7 572.1" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-4" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M472.6 444.5 C444 477.4 333 576.2 300.8 641.8 C268.6 707.3 282.8 804.9 279.2 837.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M472.6 444.5 C444 477.4 333 576.2 300.8 641.8 C268.6 707.3 282.8 804.9 279.2 837.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M288.2 823.1 L279.2 837.5 L273.5 821.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-5" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M484.7 445 C463.4 477.8 350.6 566.7 356.8 641.8 C363 716.8 494.1 820.4 521.6 895.2 C549.1 970.1 521.6 1058.4 521.6 1091" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M484.7 445 C463.4 477.8 350.6 566.7 356.8 641.8 C363 716.8 494.1 820.4 521.6 895.2 C549.1 970.1 521.6 1058.4 521.6 1091" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M529 1075.7 L521.6 1091 L514.2 1075.7" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-6" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M841.8 192.5 C839.3 225.1 824.3 313.4 826.4 388.2 C828.5 463.1 853.3 566.9 854.4 641.8 C855.5 716.6 836.4 804.9 832.8 837.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M841.8 192.5 C839.3 225.1 824.3 313.4 826.4 388.2 C828.5 463.1 853.3 566.9 854.4 641.8 C855.5 716.6 836.4 804.9 832.8 837.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M841.8 823.1 L832.8 837.5 L827.1 821.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-7" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M201.4 192.5 C203.9 225.1 218.9 313.4 216.8 388.2 C214.7 463.1 220.9 557.2 188.8 641.8 C156.7 726.2 -10.8 819.8 24 895.2 C58.8 970.7 335.6 1061 397.9 1094.2" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M201.4 192.5 C203.9 225.1 218.9 313.4 216.8 388.2 C214.7 463.1 220.9 557.2 188.8 641.8 C156.7 726.2 -10.8 819.8 24 895.2 C58.8 970.7 335.6 1061 397.9 1094.2" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M387.9 1080.5 L397.9 1094.2 L380.9 1093.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-8" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M214 192.2 C223.8 224.9 267.7 313.3 272.8 388.2 C277.9 463.2 245.9 566.9 244.8 641.8 C243.7 716.6 262.8 804.9 266.4 837.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M214 192.2 C223.8 224.9 267.7 313.3 272.8 388.2 C277.9 463.2 245.9 566.9 244.8 641.8 C243.7 716.6 262.8 804.9 266.4 837.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M272.1 821.5 L266.4 837.5 L257.4 823.1" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-9" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M325.5 951.4 L458.3 1092.6" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M325.5 951.4 L458.3 1092.6" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M453.2 1076.4 L458.3 1092.6 L442.4 1086.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-10" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M565.6 179.5 C599.7 214.3 757.6 320.7 770.4 388.2 C783.2 455.8 663.8 552.2 642.5 585" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M565.6 179.5 C599.7 214.3 757.6 320.7 770.4 388.2 C783.2 455.8 663.8 552.2 642.5 585" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M657.1 576.2 L642.5 585 L644.7 568.1" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-11" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M521.6 181.2 L521.6 330.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M521.6 181.2 L521.6 330.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M529 315.2 L521.6 330.5 L514.2 315.2" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="start"><tspan x="0" y="-38.5">arrowproof</tspan></text><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#2f9e44" text-anchor="start"><tspan x="136" y="-38.5">✓ 12 verified</tspan></text></svg></div>
+  <section class="narration" aria-live="polite">
+    <div class="stepno" id="stepno"></div>
+    <h2 id="st-title"></h2>
+    <p class="text" id="st-text"></p>
+    <div id="st-claims"></div>
+    <div class="hint" id="hint"></div>
+  </section>
+</main>
+<footer>
+  <div class="bar">
+    <button class="ctl" id="prev" type="button"><span aria-hidden="true">←</span><span class="label" id="prev-l"></span></button>
+    <button class="ctl primary" id="play" type="button"><span id="play-i" aria-hidden="true">▶</span><span class="label" id="play-l"></span></button>
+    <button class="ctl" id="speed" type="button" title="Playback speed" aria-label="Playback speed">1×</button>
+    <button class="ctl" id="next" type="button"><span class="label" id="next-l"></span><span aria-hidden="true">→</span></button>
+    <div class="track"><ol class="dots" id="dots"></ol><div class="timer"><span id="timer"></span></div></div>
+  </div>
+</footer>
+<script id="ap-data" type="application/json">{"steps": [{"kind": "overview", "title": "arrowproof checks its own diagram", "text": "12 of 12 checked arrows have an import line behind them. Use Next or the arrow keys to walk through the change.", "nodes": ["ap-node-build", "ap-node-tests", "ap-node-graph", "ap-node-explain", "ap-node-verify", "ap-node-render", "ap-node-codegraph", "ap-node-diagram"], "arrows": ["ap-edge-0", "ap-edge-1", "ap-edge-2", "ap-edge-3", "ap-edge-4", "ap-edge-5", "ap-edge-6", "ap-edge-7", "ap-edge-8", "ap-edge-9", "ap-edge-10", "ap-edge-11"]}, {"kind": "story", "title": "build.py: lay out a spec", "text": "build.py: lay out a spec uses diagram.py: Excalidraw files, render.py: SVG and report.", "nodes": ["ap-node-build", "ap-node-diagram", "ap-node-render"], "arrows": ["ap-edge-7", "ap-edge-8"]}, {"kind": "story", "title": "Tests", "text": "Tests uses verify.py: check a diagram, explain.py: explainer page.", "nodes": ["ap-node-tests", "ap-node-verify", "ap-node-explain"], "arrows": ["ap-edge-10", "ap-edge-11"]}, {"kind": "story", "title": "graph.py: print the graph", "text": "graph.py: print the graph uses codegraph.py: import graph.", "nodes": ["ap-node-graph", "ap-node-codegraph"], "arrows": ["ap-edge-6"]}, {"kind": "story", "title": "explain.py: explainer page", "text": "explain.py: explainer page uses verify.py: check a diagram, render.py: SVG and report, diagram.py: Excalidraw files.", "nodes": ["ap-node-explain", "ap-node-verify", "ap-node-render", "ap-node-diagram"], "arrows": ["ap-edge-3", "ap-edge-4", "ap-edge-5"]}, {"kind": "story", "title": "verify.py: check a diagram", "text": "verify.py: check a diagram uses codegraph.py: import graph, diagram.py: Excalidraw files, render.py: SVG and report.", "nodes": ["ap-node-verify", "ap-node-codegraph", "ap-node-diagram", "ap-node-render"], "arrows": ["ap-edge-0", "ap-edge-1", "ap-edge-2"]}, {"kind": "story", "title": "render.py: SVG and report", "text": "render.py: SVG and report uses diagram.py: Excalidraw files.", "nodes": ["ap-node-render", "ap-node-diagram"], "arrows": ["ap-edge-9"]}, {"kind": "missing", "title": "What the diagram leaves out", "text": "The code has these dependencies, but the diagram does not draw them.", "nodes": ["ap-node-tests", "ap-node-diagram", "ap-node-graph", "ap-node-codegraph"], "arrows": [], "undrawn": [{"from": "ap-node-tests", "to": "ap-node-diagram", "from_label": "Tests", "to_label": "diagram.py: Excalidraw files", "count": 1, "evidence": [{"file": "tests/test_arrowproof.py", "line": 16, "text": "import diagram as dg # noqa: E402"}]}, {"from": "ap-node-tests", "to": "ap-node-graph", "from_label": "Tests", "to_label": "graph.py: print the graph", "count": 1, "evidence": [{"file": "tests/test_arrowproof.py", "line": 18, "text": "import graph as graph_cli # noqa: E402"}]}, {"from": "ap-node-tests", "to": "ap-node-codegraph", "from_label": "Tests", "to_label": "codegraph.py: import graph", "count": 1, "evidence": [{"file": "tests/test_arrowproof.py", "line": 20, "text": "from codegraph import build_graph, is_builtin, js_imports, strip_js_comments # noqa: E402"}]}]}], "arrows": [{"id": "ap-edge-0", "from": "ap-node-verify", "to": "ap-node-codegraph", "from_label": "verify.py: check a diagram", "to_label": "codegraph.py: import graph", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/verify.py", "line": 29, "text": "from codegraph import build_graph, dist_name, is_test_path # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-1", "from": "ap-node-verify", "to": "ap-node-diagram", "from_label": "verify.py: check a diagram", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/verify.py", "line": 28, "text": "import diagram as dg # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-2", "from": "ap-node-verify", "to": "ap-node-render", "from_label": "verify.py: check a diagram", "to_label": "render.py: SVG and report", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/verify.py", "line": 611, "text": "import render"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-3", "from": "ap-node-explain", "to": "ap-node-verify", "from_label": "explain.py: explainer page", "to_label": "verify.py: check a diagram", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/explain.py", "line": 32, "text": "import verify # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-4", "from": "ap-node-explain", "to": "ap-node-render", "from_label": "explain.py: explainer page", "to_label": "render.py: SVG and report", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/explain.py", "line": 31, "text": "import render # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-5", "from": "ap-node-explain", "to": "ap-node-diagram", "from_label": "explain.py: explainer page", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/explain.py", "line": 30, "text": "import diagram as dg # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-6", "from": "ap-node-graph", "to": "ap-node-codegraph", "from_label": "graph.py: print the graph", "to_label": "codegraph.py: import graph", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/graph.py", "line": 19, "text": "from codegraph import build_graph, is_builtin, is_test_path # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-7", "from": "ap-node-build", "to": "ap-node-diagram", "from_label": "build.py: lay out a spec", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/build.py", "line": 16, "text": "import diagram as dg # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-8", "from": "ap-node-build", "to": "ap-node-render", "from_label": "build.py: lay out a spec", "to_label": "render.py: SVG and report", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/build.py", "line": 36, "text": "import render"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-9", "from": "ap-node-render", "to": "ap-node-diagram", "from_label": "render.py: SVG and report", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/render.py", "line": 13, "text": "import diagram as dg"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-10", "from": "ap-node-tests", "to": "ap-node-verify", "from_label": "Tests", "to_label": "verify.py: check a diagram", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "tests/test_arrowproof.py", "line": 19, "text": "import verify # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}, {"id": "ap-edge-11", "from": "ap-node-tests", "to": "ap-node-explain", "from_label": "Tests", "to_label": "explain.py: explainer page", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "tests/test_arrowproof.py", "line": 17, "text": "import explain # noqa: E402"}], "evidence_count": 1, "reason_kind": "verified"}], "nodes": [{"id": "ap-node-build", "label": "build.py: lay out a spec", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/build.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-tests", "label": "Tests", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["tests"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-graph", "label": "graph.py: print the graph", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/graph.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-explain", "label": "explain.py: explainer page", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/explain.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-verify", "label": "verify.py: check a diagram", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/verify.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-render", "label": "render.py: SVG and report", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/render.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-codegraph", "label": "codegraph.py: import graph", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/codegraph.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-diagram", "label": "diagram.py: Excalidraw files", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/diagram.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}], "counts": {"verified": 12}, "ui": {"step": "Step", "of": "of", "back": "Back", "next": "Next", "play": "Play", "pause": "Pause", "verified": "verified", "indirect": "indirect", "not_in_code": "not in code", "reversed": "reversed in code", "unchecked": "not provable from imports", "undrawn": "in the code, not drawn", "evidence": "Proof from the code", "via": "only through", "no_evidence": "No import line supports this arrow.", "imports_instead": "It imports instead", "imports": "imports", "keys": "← → to move, space to play", "why_actor": "One end is a person or an external system, not code.", "why_no_code": "One end has no Python or JS/TS files.", "why_flow": "A run-time flow. No import links these boxes, and imports cannot show such a flow.", "why_missing_box": "One end is not in the repository.", "why_unmapped": "One end is not mapped to code.", "why_unattached": "The arrow does not connect two boxes.", "why_skip": "The arrow is marked as conceptual.", "why_not_in_code": "No import connects these boxes.", "why_reversed": "The import goes the other way."}, "repo": "arrowproof", "title": "arrowproof checks its own diagram"}</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('ap-data').textContent);
+const T = D.ui;
+const paper = document.getElementById('paper');
+const svg = paper.querySelector('svg');
+svg.removeAttribute('width'); svg.removeAttribute('height');
+const vb = svg.viewBox.baseVal;
+const FULL = {x: vb.x, y: vb.y, w: vb.width, h: vb.height};
+let view = {...FULL};
+const arrows = new Map(D.arrows.map(a => [a.id, a]));
+const COLOR = {verified: '--ok', indirect: '--ind', not_in_code: '--bad', reversed: '--rev', unchecked: '--gray', undrawn: '--add'};
+const SYM = {verified: '✓', indirect: '↝', not_in_code: '✗', reversed: '⇄', unchecked: '?', undrawn: '+'};
+svg.querySelectorAll('.ap-edge').forEach(g => { const a = arrows.get(g.dataset.id); if (a) g.classList.add('v-' + a.verdict); });
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const first = s => (s || '').split('\n')[0];
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') el.className = v; else if (k === 'style') el.setAttribute('style', v);
+    else if (k.startsWith('on')) el.addEventListener(k.slice(2), v); else if (v != null) el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  return el;
+}
+document.getElementById('doc-title').textContent = D.title;
+document.getElementById('prev-l').textContent = T.back;
+document.getElementById('next-l').textContent = T.next;
+document.getElementById('hint').textContent = T.keys;
+
+function boxOf(ids) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  svg.querySelectorAll('[data-id],[data-for]').forEach(el => {
+    if (!ids.has(el.dataset.id || el.dataset.for)) return;
+    const b = el.getBBox();
+    if (!b.width && !b.height) return;
+    x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y); x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height);
+  });
+  if (!isFinite(x0)) return FULL;
+  const pad = 70, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  // Frame the focus with some room around it, but never closer than a readable minimum.
+  let w = Math.max(x1 - x0 + 2 * pad, 520, FULL.w * 0.12), h = Math.max(y1 - y0 + 2 * pad, 340, FULL.h * 0.12);
+  const r = paper.clientWidth / Math.max(1, paper.clientHeight);
+  if (w / h > r) h = w / r; else w = h * r;
+  if (w >= FULL.w && h >= FULL.h) return FULL;
+  return {x: cx - w / 2, y: cy - h / 2, w, h};
+}
+let raf = 0;
+function camera(to, instant) {
+  const from = {...view}, t0 = performance.now(), dur = instant || reduced ? 0 : 800;
+  cancelAnimationFrame(raf);
+  const frame = now => {
+    const k = dur ? Math.min(1, (now - t0) / dur) : 1;
+    const e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+    view = {x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e, w: from.w + (to.w - from.w) * e, h: from.h + (to.h - from.h) * e};
+    svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
+    if (k < 1) raf = requestAnimationFrame(frame);
+  };
+  raf = requestAnimationFrame(frame);
+}
+function claim(a) {
+  const key = a.verdict;
+  const box = h('div', {class: 'claim', style: `--c: var(${COLOR[key]})`},
+    h('div', {class: 'head'}, h('span', {class: 'badge'}, SYM[key] + ' ' + T[key]),
+      h('span', {class: 'pair'}, first(a.from_label) + ' → ' + first(a.to_label))));
+  if (key === 'indirect' && a.via) box.append(h('p', {class: 'why'}, T.via + ': ' + a.via.join(' → ')));
+  else if (key !== 'verified') box.append(h('p', {class: 'why'}, T['why_' + a.reason_kind] || a.reason || T.no_evidence));
+  if (a.evidence && a.evidence.length && key !== 'unchecked')
+    box.append(h('ul', {class: 'ev'}, a.evidence.slice(0, 3).map(e =>
+      h('li', {}, h('span', {class: 'loc'}, `${e.file}:${e.line}`), h('code', {}, e.text)))));
+  if (a.imports_instead && a.imports_instead.length) box.append(h('p', {class: 'why'}, T.imports_instead + ': ' + a.imports_instead.join(', ')));
+  return box;
+}
+function undrawn(u) {
+  const e = u.evidence[0];
+  return h('div', {class: 'claim', style: '--c: var(--add)'},
+    h('div', {class: 'head'}, h('span', {class: 'badge'}, '+ ' + T.undrawn),
+      h('span', {class: 'pair'}, first(u.from_label) + ' → ' + first(u.to_label))),
+    h('ul', {class: 'ev'}, h('li', {}, h('span', {class: 'loc'}, `${e.file}:${e.line} · ${u.count} ${T.imports}`), h('code', {}, e.text))));
+}
+const steps = D.steps;
+let index = 0, playing = false, timer = 0;
+const dots = document.getElementById('dots');
+steps.forEach((s, i) => dots.append(h('li', {}, h('button', {type: 'button', title: s.title, 'aria-label': `${T.step} ${i + 1}: ${s.title}`, onclick: () => go(i)}))));
+function render(i, instant) {
+  const s = steps[i];
+  document.getElementById('stepno').textContent = `${T.step} ${i + 1} ${T.of} ${steps.length}`;
+  document.getElementById('st-title').textContent = s.title;
+  document.getElementById('st-text').textContent = s.text;
+  const claims = document.getElementById('st-claims');
+  claims.replaceChildren();
+  const rows = s.kind === 'overview' ? [] : s.arrows.map(id => arrows.get(id)).filter(Boolean);
+  if (rows.length) claims.append(h('div', {class: 'section-label'}, T.evidence), h('div', {class: 'claims'}, rows.map(claim)));
+  if (s.undrawn) claims.append(h('div', {class: 'claims'}, s.undrawn.map(undrawn)));
+  const ids = new Set([...s.nodes, ...s.arrows]);
+  const all = s.kind === 'overview';
+  svg.classList.toggle('focus', !all);
+  svg.querySelectorAll('[data-id],[data-for]').forEach(el => el.classList.toggle('on', !all && ids.has(el.dataset.id || el.dataset.for)));
+  camera(all ? FULL : boxOf(ids), instant);
+  [...dots.querySelectorAll('button')].forEach((b, k) => { b.className = k < i ? 'done' : k === i ? 'cur' : ''; b.setAttribute('aria-current', k === i ? 'step' : 'false'); });
+  document.getElementById('prev').disabled = i === 0;
+  document.getElementById('next').disabled = i === steps.length - 1;
+  try { history.replaceState(null, '', '#step=' + (i + 1)); } catch (e) {}
+}
+// Reading time: about 0.25 s per word plus 1.2 s per evidence card, kept between 6 and 14 s.
+const SPEEDS = [1, 1.5, 2];
+let speed = 1;
+function duration(s) {
+  const words = (s.title + ' ' + s.text).split(/\s+/).filter(Boolean).length;
+  const cards = s.kind === 'overview' ? 0 : Math.min(4, s.arrows.length + (s.undrawn ? s.undrawn.length : 0));
+  return Math.max(6000, Math.min(14000, 2500 + 250 * words + 1200 * cards)) / speed;
+}
+function schedule() {
+  clearTimeout(timer);
+  const bar = document.getElementById('timer');
+  bar.style.transition = 'none'; bar.style.width = '0';
+  if (!playing) return;
+  const ms = duration(steps[index]);
+  requestAnimationFrame(() => { bar.style.transition = `width ${ms}ms linear`; bar.style.width = '100%'; });
+  timer = setTimeout(() => { if (index < steps.length - 1) go(index + 1); else setPlaying(false); }, ms);
+}
+function go(i) { index = Math.max(0, Math.min(steps.length - 1, i)); render(index); schedule(); }
+function setPlaying(on) {
+  playing = on;
+  document.getElementById('play-i').textContent = on ? '❚❚' : '▶';
+  document.getElementById('play-l').textContent = on ? T.pause : T.play;
+  if (on && index === steps.length - 1) { index = 0; render(0); }
+  schedule();
+}
+document.getElementById('prev').onclick = () => go(index - 1);
+document.getElementById('next').onclick = () => go(index + 1);
+document.getElementById('play').onclick = () => setPlaying(!playing);
+document.getElementById('speed').onclick = () => {
+  speed = SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length];
+  document.getElementById('speed').textContent = speed + '×';
+  schedule();
+};
+document.addEventListener('keydown', ev => {
+  const target = ev.target instanceof Element ? ev.target : document.body;
+  if (target.closest('input,textarea,select')) return;
+  if (ev.key === 'ArrowRight') { ev.preventDefault(); go(index + 1); }
+  else if (ev.key === 'ArrowLeft') { ev.preventDefault(); go(index - 1); }
+  else if (ev.key === ' ' && !target.closest('button')) { ev.preventDefault(); setPlaying(!playing); }
+  else if (ev.key === 'Home') go(0); else if (ev.key === 'End') go(steps.length - 1);
+});
+addEventListener('resize', () => render(index, true));
+// Links can open a step, a speed and autoplay: #step=3&speed=2&play=1
+const hash = new URLSearchParams(location.hash.slice(1));
+const wanted = parseInt(hash.get('step'), 10);
+index = wanted >= 1 && wanted <= steps.length ? wanted - 1 : 0;
+const askedSpeed = parseFloat(hash.get('speed'));
+if (SPEEDS.includes(askedSpeed)) { speed = askedSpeed; document.getElementById('speed').textContent = speed + '×'; }
+render(index, true);
+setPlaying(hash.get('play') === '1');
+})();
+</script>
+</body>
+</html>

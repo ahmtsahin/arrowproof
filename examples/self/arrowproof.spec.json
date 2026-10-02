@@ -1,0 +1,13 @@
+{"title": "arrowproof checks its own diagram",
+ "nodes": [{"id": "verify", "label": "verify.py: check a diagram", "paths": ["skills/arrowproof/scripts/verify.py"]},
+           {"id": "explain", "label": "explain.py: explainer page", "paths": ["skills/arrowproof/scripts/explain.py"]},
+           {"id": "graph", "label": "graph.py: print the graph", "paths": ["skills/arrowproof/scripts/graph.py"]},
+           {"id": "build", "label": "build.py: lay out a spec", "paths": ["skills/arrowproof/scripts/build.py"]},
+           {"id": "codegraph", "label": "codegraph.py: import graph", "paths": ["skills/arrowproof/scripts/codegraph.py"]},
+           {"id": "diagram", "label": "diagram.py: Excalidraw files", "paths": ["skills/arrowproof/scripts/diagram.py"]},
+           {"id": "render", "label": "render.py: SVG and report", "paths": ["skills/arrowproof/scripts/render.py"]},
+           {"id": "tests", "label": "Tests", "paths": ["tests"]}],
+ "edges": [{"from": "verify", "to": "codegraph"}, {"from": "verify", "to": "diagram"}, {"from": "verify", "to": "render"},
+           {"from": "explain", "to": "verify"}, {"from": "explain", "to": "render"}, {"from": "explain", "to": "diagram"},
+           {"from": "graph", "to": "codegraph"}, {"from": "build", "to": "diagram"}, {"from": "build", "to": "render"},
+           {"from": "render", "to": "diagram"}, {"from": "tests", "to": "verify"}, {"from": "tests", "to": "explain"}]}

@@ -1,0 +1,13 @@
+{
+  "name": "arrowproof",
+  "displayName": "arrowproof",
+  "description": "Draw architecture diagrams of a codebase as Excalidraw files and check every box and arrow against the real import graph, with the import line behind each arrow.",
+  "version": "0.1.0",
+  "author": {
+    "name": "ahmtsahin"
+  },
+  "homepage": "https://github.com/ahmtsahin/arrowproof",
+  "repository": "https://github.com/ahmtsahin/arrowproof",
+  "license": "MIT",
+  "keywords": ["architecture", "diagram", "excalidraw", "dependencies", "documentation", "verification"]
+}

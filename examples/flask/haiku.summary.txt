@@ -1,0 +1,26 @@
+arrowproof: examples/flask/haiku.spec.json against pallets/flask@d73fa1c
+
+Arrows: 18 checked. ✓ 15 verified, ↝ 1 indirect, ✗ 2 not in code, ? 2 unchecked
+Boxes: 13 found in the code, 1 not in the repo
+
+Problems:
+- ✗ "View Functions" -> "Request/Response Wrappers": no import from "View Functions" to "Request/Response Wrappers". It imports Globals
+- ✗ "View Functions" -> "Templating": no import from "View Functions" to "Templating". It imports Globals
+- ✗ box "Blueprints": no such path in the repository: src/flask/blueprint.py
+
+Indirect (the diagram skips a module):
+- ↝ "Flask Application" -> "Configuration": only through src/flask/sansio/app.py
+
+Unchecked: 2 arrows (2 touch boxes that are not in the repo)
+- ? "Flask Application" -> "Blueprints": box "Blueprints" is not in the code
+- ? "Blueprints" -> "Flask Application": box "Blueprints" is not in the code
+
+In the code but not in the diagram (top 8):
+- "Application Context" -> "Signals": 2 imports (e.g. src/flask/ctx.py:14)
+- "Templating" -> "Signals": 2 imports (e.g. src/flask/templating.py:13)
+- "View Functions" -> "Globals": 2 imports (e.g. src/flask/views.py:6)
+- "CLI Support" -> "Globals": 1 import (e.g. src/flask/cli.py:23)
+- "Templating" -> "Application Context": 1 import (e.g. src/flask/templating.py:10)
+- "Templating" -> "Globals": 1 import (e.g. src/flask/templating.py:11)
+- "Request/Response Wrappers" -> "Globals": 1 import (e.g. src/flask/wrappers.py:11)
+- "Flask Application" -> "Click": 1 import (e.g. src/flask/app.py:17)

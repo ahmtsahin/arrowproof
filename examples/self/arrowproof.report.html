@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arrowproof.spec.json · arrowproof</title>
+<style>
+:root{--bg:#f6f5f1;--fg:#1d1d1b;--muted:#6b6a65;--card:#fff;--line:#e2e0d9;--soft:#efede7;
+--ok:#2f9e44;--ind:#0c8599;--bad:#e03131;--rev:#d9480f;--gray:#868e96;--add:#9c36b5;--accent:#1971c2;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#ecebe5;--muted:#a3a29b;
+--card:#1d1d1b;--line:#34332f;--soft:#262623;--ok:#51cf66;--ind:#3bc9db;--bad:#ff6b6b;--rev:#ff922b;--gray:#adb5bd;
+--add:#da77f2;--accent:#74c0fc;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141413;--fg:#ecebe5;--muted:#a3a29b;--card:#1d1d1b;--line:#34332f;--soft:#262623;
+--ok:#51cf66;--ind:#3bc9db;--bad:#ff6b6b;--rev:#ff922b;--gray:#adb5bd;--add:#da77f2;--accent:#74c0fc;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header,main,section.lists,footer{max-width:1320px;margin:0 auto;padding:0 16px}
+header{padding-top:28px;padding-bottom:8px}
+.brand{font:600 13px/1 ui-monospace,"Cascadia Code",Consolas,monospace;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+h1{font-size:26px;margin:8px 0 4px;letter-spacing:-.01em;word-break:break-word}
+.meta{color:var(--muted);margin:0;font-size:14px;word-break:break-word}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:16px 0 0}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:14px}
+.chip b{font-size:16px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;background:currentColor}
+.c-ok{color:var(--ok)}.c-ind{color:var(--ind)}.c-bad{color:var(--bad)}.c-rev{color:var(--rev)}.c-gray{color:var(--gray)}.c-add{color:var(--add)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;margin-top:20px;align-items:start}
+@media (max-width:1000px){main{grid-template-columns:1fr}}
+.paper{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:auto;max-height:78vh}
+.paper svg{display:block;width:100%;height:auto;min-width:640px}
+.hint{color:var(--muted);font-size:13px;margin:8px 2px 0}
+.ap-edge,.ap-node,.ap-text{cursor:pointer;outline:none}
+.ap-edge:hover .vis,.ap-edge:focus-visible .vis{stroke-width:4}
+.ap-node:hover>*,.ap-node:focus-visible>*{filter:drop-shadow(0 0 4px rgba(25,113,194,.45))}
+svg.has-sel .ap-edge:not(.sel),svg.has-sel .ap-node:not(.sel){opacity:.28}
+.ap-edge.sel .vis{stroke-width:5}
+.ap-node.sel>*{filter:drop-shadow(0 0 6px rgba(25,113,194,.6))}
+.panel{position:sticky;top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;max-height:calc(100vh - 32px);overflow:auto}
+.panel h2{font-size:17px;margin:0 0 6px}
+.panel h3{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 0 8px}
+.verdict{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14px}
+.reason{margin:6px 0 0;color:var(--muted);font-size:14px}
+.ev{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ev li{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--soft)}
+.ev .loc{font:12.5px/1.4 ui-monospace,"Cascadia Code",Consolas,monospace;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.ev .loc a{color:var(--accent);text-decoration:none;white-space:nowrap}
+.ev code{display:block;font:13px/1.45 ui-monospace,"Cascadia Code",Consolas,monospace;white-space:pre-wrap;word-break:break-word;margin-top:4px}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px}
+.problems{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.problems button,.rowbtn{all:unset;cursor:pointer;display:block;width:100%;padding:8px 10px;border-radius:9px;border:1px solid var(--line);background:var(--soft);font-size:14px}
+.problems button:hover,.problems button:focus-visible{border-color:var(--accent)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px;margin:8px 0 0}
+.kv dt{color:var(--muted)}.kv dd{margin:0;word-break:break-word}
+section.lists{margin-top:28px}
+section.lists h2{font-size:18px;margin:28px 0 10px}
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--soft)}
+.tbl tr[data-pick]{cursor:pointer}.tbl tr[data-pick]:hover td{background:var(--soft)}
+.wrap{overflow-x:auto}
+.empty{color:var(--muted);font-size:14px}
+footer{color:var(--muted);font-size:13px;padding-top:28px;padding-bottom:40px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">arrowproof · evidence report</div>
+  <h1>arrowproof.spec.json</h1>
+  <p class="meta" id="meta"></p>
+  <ul class="chips" id="chips"></ul>
+</header>
+<main>
+  <section>
+    <div class="paper" id="paper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -96 1123.2 1359" width="1123.2" height="1359" role="img"><rect class="bg" x="-40" y="-96" width="1123.2" height="1359" fill="#ffffff"/><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="28" fill="#1e1e1e" text-anchor="start"><tspan x="0" y="27.3">arrowproof checks its own diagram</tspan></text><g class="ap-node" data-id="ap-node-build" tabindex="0" role="button" aria-label="box"><rect x="0" y="83" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-build"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="196.8" y="118.5">build.py: lay out a spec</tspan><tspan x="196.8" y="141.1">skills/arrowproof/scripts/build.</tspan><tspan x="196.8" y="163.6">py</tspan></text></g><g class="ap-node" data-id="ap-node-tests" tabindex="0" role="button" aria-label="box"><rect x="441.6" y="94.2" width="160" height="81" rx="20.2" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-tests"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="521.6" y="129.8">Tests</tspan><tspan x="521.6" y="152.3">tests</tspan></text></g><g class="ap-node" data-id="ap-node-graph" tabindex="0" role="button" aria-label="box"><rect x="649.6" y="83" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-graph"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="846.4" y="118.5">graph.py: print the graph</tspan><tspan x="846.4" y="141.1">skills/arrowproof/scripts/graph.</tspan><tspan x="846.4" y="163.6">py</tspan></text></g><g class="ap-node" data-id="ap-node-explain" tabindex="0" role="button" aria-label="box"><rect x="324.8" y="336.5" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-explain"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="521.6" y="372.1">explain.py: explainer page</tspan><tspan x="521.6" y="394.6">skills/arrowproof/scripts/explai</tspan><tspan x="521.6" y="417.1">n.py</tspan></text></g><g class="ap-node" data-id="ap-node-verify" tabindex="0" role="button" aria-label="box"><rect x="408.8" y="590" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-verify"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="605.6" y="625.5">verify.py: check a diagram</tspan><tspan x="605.6" y="648">skills/arrowproof/scripts/verify</tspan><tspan x="605.6" y="670.5">.py</tspan></text></g><g class="ap-node" data-id="ap-node-render" tabindex="0" role="button" aria-label="box"><rect x="76" y="843.5" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-render"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="272.8" y="879">render.py: SVG and report</tspan><tspan x="272.8" y="901.5">skills/arrowproof/scripts/render</tspan><tspan x="272.8" y="924">.py</tspan></text></g><g class="ap-node" data-id="ap-node-codegraph" tabindex="0" role="button" aria-label="box"><rect x="629.6" y="843.5" width="393.6" height="103.5" rx="25.9" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-codegraph"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="826.4" y="879">codegraph.py: import graph</tspan><tspan x="826.4" y="901.5">skills/arrowproof/scripts/codegr</tspan><tspan x="826.4" y="924">aph.py</tspan></text></g><g class="ap-node" data-id="ap-node-diagram" tabindex="0" role="button" aria-label="box"><rect x="324.8" y="1097" width="393.6" height="126" rx="31.5" stroke="#1971c2" stroke-width="2" fill="#d0ebff" stroke-linejoin="round"/></g><g class="ap-text" data-for="ap-node-diagram"><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="middle"><tspan x="521.6" y="1132.5">diagram.py: Excalidraw</tspan><tspan x="521.6" y="1155">files</tspan><tspan x="521.6" y="1177.5">skills/arrowproof/scripts/diagra</tspan><tspan x="521.6" y="1200">m.py</tspan></text></g><g class="ap-edge" data-id="ap-edge-0" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M654.6 698 L777.4 839" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M654.6 698 L777.4 839" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M772.9 822.6 L777.4 839 L761.8 832.3" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-1" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M599.2 699.5 C595.6 732.1 588.1 830 577.6 895.2 C567.1 960.5 543.1 1058.5 536.2 1091.1" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M599.2 699.5 C595.6 732.1 588.1 830 577.6 895.2 C567.1 960.5 543.1 1058.5 536.2 1091.1" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M546.6 1077.7 L536.2 1091.1 L532.1 1074.6" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-2" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M532.9 697.1 L345.5 839.9" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M532.9 697.1 L345.5 839.9" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M362.2 836.5 L345.5 839.9 L353.2 824.7" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-3" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M540.6 445.7 L586.6 584.3" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M540.6 445.7 L586.6 584.3" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M588.8 567.4 L586.6 584.3 L574.7 572.1" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-4" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M472.6 444.5 C444 477.4 333 576.2 300.8 641.8 C268.6 707.3 282.8 804.9 279.2 837.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M472.6 444.5 C444 477.4 333 576.2 300.8 641.8 C268.6 707.3 282.8 804.9 279.2 837.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M288.2 823.1 L279.2 837.5 L273.5 821.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-5" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M484.7 445 C463.4 477.8 350.6 566.7 356.8 641.8 C363 716.8 494.1 820.4 521.6 895.2 C549.1 970.1 521.6 1058.4 521.6 1091" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M484.7 445 C463.4 477.8 350.6 566.7 356.8 641.8 C363 716.8 494.1 820.4 521.6 895.2 C549.1 970.1 521.6 1058.4 521.6 1091" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M529 1075.7 L521.6 1091 L514.2 1075.7" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-6" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M841.8 192.5 C839.3 225.1 824.3 313.4 826.4 388.2 C828.5 463.1 853.3 566.9 854.4 641.8 C855.5 716.6 836.4 804.9 832.8 837.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M841.8 192.5 C839.3 225.1 824.3 313.4 826.4 388.2 C828.5 463.1 853.3 566.9 854.4 641.8 C855.5 716.6 836.4 804.9 832.8 837.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M841.8 823.1 L832.8 837.5 L827.1 821.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-7" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M201.4 192.5 C203.9 225.1 218.9 313.4 216.8 388.2 C214.7 463.1 220.9 557.2 188.8 641.8 C156.7 726.2 -10.8 819.8 24 895.2 C58.8 970.7 335.6 1061 397.9 1094.2" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M201.4 192.5 C203.9 225.1 218.9 313.4 216.8 388.2 C214.7 463.1 220.9 557.2 188.8 641.8 C156.7 726.2 -10.8 819.8 24 895.2 C58.8 970.7 335.6 1061 397.9 1094.2" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M387.9 1080.5 L397.9 1094.2 L380.9 1093.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-8" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M214 192.2 C223.8 224.9 267.7 313.3 272.8 388.2 C277.9 463.2 245.9 566.9 244.8 641.8 C243.7 716.6 262.8 804.9 266.4 837.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M214 192.2 C223.8 224.9 267.7 313.3 272.8 388.2 C277.9 463.2 245.9 566.9 244.8 641.8 C243.7 716.6 262.8 804.9 266.4 837.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M272.1 821.5 L266.4 837.5 L257.4 823.1" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-9" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M325.5 951.4 L458.3 1092.6" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M325.5 951.4 L458.3 1092.6" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M453.2 1076.4 L458.3 1092.6 L442.4 1086.5" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-10" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M565.6 179.5 C599.7 214.3 757.6 320.7 770.4 388.2 C783.2 455.8 663.8 552.2 642.5 585" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M565.6 179.5 C599.7 214.3 757.6 320.7 770.4 388.2 C783.2 455.8 663.8 552.2 642.5 585" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M657.1 576.2 L642.5 585 L644.7 568.1" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><g class="ap-edge" data-id="ap-edge-11" tabindex="0" role="button" aria-label="arrow"><path class="hit" d="M521.6 181.2 L521.6 330.5" fill="none" stroke="transparent" stroke-width="18"/><path class="vis" d="M521.6 181.2 L521.6 330.5" stroke="#2f9e44" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M529 315.2 L521.6 330.5 L514.2 315.2" fill="none" stroke="#2f9e44" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#1e1e1e" text-anchor="start"><tspan x="0" y="-38.5">arrowproof</tspan></text><text font-family="Excalifont, Virgil, &#x27;Segoe Print&#x27;, &#x27;Comic Sans MS&#x27;, &#x27;Chalkboard SE&#x27;, cursive" font-size="18" fill="#2f9e44" text-anchor="start"><tspan x="136" y="-38.5">✓ 12 verified</tspan></text></svg></div>
+    <p class="hint">Click an arrow or a box to see the import lines behind it. Click empty space to go back.</p>
+  </section>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</main>
+<section class="lists">
+  <h2>Arrows</h2><div class="wrap"><table class="tbl" id="t-arrows"></table></div>
+  <h2>In the code, not in the diagram</h2><div class="wrap" id="w-undrawn"></div>
+  <h2>Boxes</h2><div class="wrap"><table class="tbl" id="t-boxes"></table></div>
+</section>
+<footer>An arrow A → B is verified when a file in A imports a file or a package in B. Arrows marked as flow pass with an import in either direction. Calls through HTTP, queues, dependency injection or computed imports are not visible to this check, so an unverified arrow is a claim without evidence, not proof of a bug.</footer>
+<script id="ap-data" type="application/json">{"arrows": [{"id": "ap-edge-0", "from": "ap-node-verify", "to": "ap-node-codegraph", "from_label": "verify.py: check a diagram", "to_label": "codegraph.py: import graph", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/verify.py", "line": 29, "text": "from codegraph import build_graph, dist_name, is_test_path # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-1", "from": "ap-node-verify", "to": "ap-node-diagram", "from_label": "verify.py: check a diagram", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/verify.py", "line": 28, "text": "import diagram as dg # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-2", "from": "ap-node-verify", "to": "ap-node-render", "from_label": "verify.py: check a diagram", "to_label": "render.py: SVG and report", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/verify.py", "line": 611, "text": "import render"}], "evidence_count": 1}, {"id": "ap-edge-3", "from": "ap-node-explain", "to": "ap-node-verify", "from_label": "explain.py: explainer page", "to_label": "verify.py: check a diagram", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/explain.py", "line": 32, "text": "import verify # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-4", "from": "ap-node-explain", "to": "ap-node-render", "from_label": "explain.py: explainer page", "to_label": "render.py: SVG and report", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/explain.py", "line": 31, "text": "import render # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-5", "from": "ap-node-explain", "to": "ap-node-diagram", "from_label": "explain.py: explainer page", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/explain.py", "line": 30, "text": "import diagram as dg # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-6", "from": "ap-node-graph", "to": "ap-node-codegraph", "from_label": "graph.py: print the graph", "to_label": "codegraph.py: import graph", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/graph.py", "line": 19, "text": "from codegraph import build_graph, is_builtin, is_test_path # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-7", "from": "ap-node-build", "to": "ap-node-diagram", "from_label": "build.py: lay out a spec", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/build.py", "line": 16, "text": "import diagram as dg # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-8", "from": "ap-node-build", "to": "ap-node-render", "from_label": "build.py: lay out a spec", "to_label": "render.py: SVG and report", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/build.py", "line": 36, "text": "import render"}], "evidence_count": 1}, {"id": "ap-edge-9", "from": "ap-node-render", "to": "ap-node-diagram", "from_label": "render.py: SVG and report", "to_label": "diagram.py: Excalidraw files", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "skills/arrowproof/scripts/render.py", "line": 13, "text": "import diagram as dg"}], "evidence_count": 1}, {"id": "ap-edge-10", "from": "ap-node-tests", "to": "ap-node-verify", "from_label": "Tests", "to_label": "verify.py: check a diagram", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "tests/test_arrowproof.py", "line": 19, "text": "import verify # noqa: E402"}], "evidence_count": 1}, {"id": "ap-edge-11", "from": "ap-node-tests", "to": "ap-node-explain", "from_label": "Tests", "to_label": "explain.py: explainer page", "label": "", "kind": "uses", "mode": "forward", "verdict": "verified", "reason": "", "evidence": [{"file": "tests/test_arrowproof.py", "line": 17, "text": "import explain # noqa: E402"}], "evidence_count": 1}], "nodes": [{"id": "ap-node-build", "label": "build.py: lay out a spec", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/build.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-tests", "label": "Tests", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["tests"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-graph", "label": "graph.py: print the graph", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/graph.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-explain", "label": "explain.py: explainer page", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/explain.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-verify", "label": "verify.py: check a diagram", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/verify.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-render", "label": "render.py: SVG and report", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/render.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-codegraph", "label": "codegraph.py: import graph", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/codegraph.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}, {"id": "ap-node-diagram", "label": "diagram.py: Excalidraw files", "verdict": "ok", "reason": "", "source": "explicit", "paths": ["skills/arrowproof/scripts/diagram.py"], "packages": [], "files": 1, "code_files": 1, "other_types": [], "package_hits": []}], "undrawn": [{"from": "ap-node-tests", "to": "ap-node-diagram", "from_label": "Tests", "to_label": "diagram.py: Excalidraw files", "count": 1, "evidence": [{"file": "tests/test_arrowproof.py", "line": 16, "text": "import diagram as dg # noqa: E402"}]}, {"from": "ap-node-tests", "to": "ap-node-graph", "from_label": "Tests", "to_label": "graph.py: print the graph", "count": 1, "evidence": [{"file": "tests/test_arrowproof.py", "line": 18, "text": "import graph as graph_cli # noqa: E402"}]}, {"from": "ap-node-tests", "to": "ap-node-codegraph", "from_label": "Tests", "to_label": "codegraph.py: import graph", "count": 1, "evidence": [{"file": "tests/test_arrowproof.py", "line": 20, "text": "from codegraph import build_graph, is_builtin, js_imports, strip_js_comments # noqa: E402"}]}], "counts": {"verified": 12}, "box_counts": {"ok": 8}, "diagram": "arrowproof.spec.json", "repo": "arrowproof", "stats": {"files": 34, "python": 8, "js": 0, "edges": 15, "unresolved": 0, "parse_errors": 0}, "generated": "2026-10-02 14:55"}</script>
+<script>
+(() => {
+const D = JSON.parse(document.getElementById('ap-data').textContent);
+const arrows = new Map(D.arrows.map(a => [a.id, a]));
+const nodes = new Map(D.nodes.map(n => [n.id, n]));
+const svg = document.querySelector('#paper svg');
+const panel = document.getElementById('panel');
+const V = {
+  verified: ['✓', 'verified', 'c-ok'], indirect: ['↝', 'indirect', 'c-ind'], not_in_code: ['✗', 'not in code', 'c-bad'],
+  reversed: ['⇄', 'reversed in code', 'c-rev'], unchecked: ['?', 'unchecked', 'c-gray'],
+  ok: ['✓', 'found in repo', 'c-ok'], unmapped: ['?', 'not mapped', 'c-gray'],
+  skipped: ['–', 'not code', 'c-gray'],
+};
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === 'class') el.className = v; else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+    else if (v !== undefined && v !== null) el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat()) if (kid !== null && kid !== undefined && kid !== false)
+    el.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+  return el;
+}
+const first = s => (s || '?').split('\n')[0];
+function badge(key) { const v = V[key] || V.unchecked; return h('span', {class: 'verdict ' + v[2]}, v[0] + ' ' + v[1]); }
+const local = /^([a-zA-Z]:[\\/]|\/)/.test(D.repo || '');
+function vscode(file, line) {
+  const root = (D.repo || '').replace(/\\/g, '/');
+  return 'vscode://file/' + encodeURI(root + '/' + file) + ':' + line;
+}
+function evidence(list, total) {
+  if (!list.length) return h('p', {class: 'empty'}, 'No import line connects these boxes.');
+  const ul = h('ul', {class: 'ev'}, list.map(e => h('li', {},
+    h('div', {class: 'loc'}, h('span', {}, e.file + ':' + e.line, e.type_only ? h('span', {class: 'tag'}, 'type only') : null),
+      local ? h('a', {href: vscode(e.file, e.line), title: 'Open in VS Code'}, 'open ↗') : null),
+    h('code', {}, e.text))));
+  return h('div', {}, ul, total > list.length ? h('p', {class: 'empty'}, `…and ${total - list.length} more`) : null);
+}
+function clear() {
+  svg.classList.remove('has-sel');
+  svg.querySelectorAll('.sel').forEach(el => el.classList.remove('sel'));
+}
+function pick(id) {
+  clear();
+  const g = svg.querySelector(`[data-id="${CSS.escape(id)}"]`);
+  if (g) { g.classList.add('sel'); svg.classList.add('has-sel'); }
+  if (arrows.has(id)) showArrow(arrows.get(id)); else if (nodes.has(id)) showNode(nodes.get(id));
+  if (window.matchMedia('(max-width:1000px)').matches) panel.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+function showArrow(a) {
+  panel.replaceChildren(
+    h('h2', {}, `${first(a.from_label)} → ${first(a.to_label)}`),
+    badge(a.verdict),
+    a.reason ? h('p', {class: 'reason'}, a.reason) : null,
+    h('dl', {class: 'kv'}, h('dt', {}, 'claim'), h('dd', {}, a.mode === 'either'
+      ? 'these boxes import each other in some direction' : `code in "${first(a.from_label)}" imports code in "${first(a.to_label)}"`),
+      a.label ? [h('dt', {}, 'label'), h('dd', {}, a.label)] : null),
+    h('h3', {}, a.verdict === 'indirect' ? 'The shortest import chain'
+      : a.evidence_count ? `Evidence · ${a.evidence_count} import${a.evidence_count > 1 ? 's' : ''}` : 'Evidence'),
+    evidence(a.evidence, a.evidence_count),
+    h('div', {}, a.imports_instead ? [h('h3', {}, `What "${first(a.from_label)}" imports`),
+      a.imports_instead.length ? h('p', {class: 'reason'}, a.imports_instead.join(', '))
+        : h('p', {class: 'empty'}, 'No other box in this diagram.')] : null));
+}
+function showNode(n) {
+  const touching = D.arrows.filter(a => a.from === n.id || a.to === n.id);
+  panel.replaceChildren(
+    h('h2', {}, first(n.label) || n.id), badge(n.verdict),
+    n.reason ? h('p', {class: 'reason'}, n.reason) : null,
+    h('dl', {class: 'kv'},
+      h('dt', {}, 'mapped by'), h('dd', {}, {explicit: 'customData', label: 'label match', link: 'element link'}[n.source] || '—'),
+      n.paths.length ? [h('dt', {}, 'paths'), h('dd', {}, n.paths.join(', '))] : null,
+      n.packages.length ? [h('dt', {}, 'packages'), h('dd', {}, n.packages.join(', '))] : null,
+      h('dt', {}, 'files'), h('dd', {}, String(n.files))),
+    h('h3', {}, 'Arrows'),
+    touching.length ? h('ul', {class: 'problems'}, touching.map(a => h('li', {},
+      h('button', {onclick: () => pick(a.id)}, (V[a.verdict] || V.unchecked)[0] + ' ' + first(a.from_label) + ' → ' + first(a.to_label)))))
+      : h('p', {class: 'empty'}, 'No arrows touch this box.'));
+}
+function overview() {
+  const bad = D.arrows.filter(a => a.verdict === 'not_in_code' || a.verdict === 'reversed');
+  const badBoxes = D.nodes.filter(n => n.verdict === 'not_in_code');
+  panel.replaceChildren(
+    h('h2', {}, bad.length || badBoxes.length ? 'Claims without evidence' : 'Every checked claim has evidence'),
+    h('p', {class: 'reason'}, 'Pick one to see why. Green arrows have import lines behind them.'),
+    bad.length || badBoxes.length ? h('ul', {class: 'problems'},
+      bad.map(a => h('li', {}, h('button', {onclick: () => pick(a.id)}, V[a.verdict][0] + ' ' + first(a.from_label) + ' → ' + first(a.to_label)))),
+      badBoxes.map(n => h('li', {}, h('button', {onclick: () => pick(n.id)}, '✗ box ' + first(n.label)))))
+      : null);
+}
+svg.addEventListener('click', ev => {
+  const g = ev.target.closest('.ap-edge,.ap-node,.ap-text');
+  if (!g) { clear(); overview(); return; }
+  pick(g.classList.contains('ap-text') ? g.dataset.for : g.dataset.id);
+});
+svg.addEventListener('keydown', ev => {
+  const g = ev.target.closest('.ap-edge,.ap-node');
+  if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); pick(g.dataset.id); }
+});
+const s = D.stats;
+const meta = document.getElementById('meta');
+const repoName = (D.repo || '').split(/[\\/]/).filter(Boolean).pop() || D.repo;
+meta.textContent = `Checked against ${repoName} · ${s.python} Python and ${s.js} JS/TS files · ${s.edges} file-to-file imports · ${D.generated}`;
+meta.title = D.repo;
+const C = D.counts, B = D.box_counts;
+const chips = [['verified', C.verified, 'c-ok', '✓', 'verified'], ['indirect', C.indirect, 'c-ind', '↝', 'indirect'],
+  ['not_in_code', C.not_in_code, 'c-bad', '✗', 'not in code'],
+  ['reversed', C.reversed, 'c-rev', '⇄', 'reversed'], ['unchecked', C.unchecked, 'c-gray', '?', 'unchecked'],
+  ['boxes', B.not_in_code, 'c-bad', '✗', B.not_in_code === 1 ? 'box not in repo' : 'boxes not in repo'],
+  ['undrawn', D.undrawn.length, 'c-add', '+', D.undrawn.length === 1 ? 'import not drawn' : 'imports not drawn']];
+document.getElementById('chips').replaceChildren(...chips.filter(c => c[1]).map(c =>
+  h('li', {class: 'chip'}, h('span', {class: 'dot ' + c[2]}), h('b', {}, String(c[1])), ' ' + c[4])));
+const ta = document.getElementById('t-arrows');
+ta.append(h('tr', {}, h('th', {}, ''), h('th', {}, 'Arrow'), h('th', {}, 'Why'), h('th', {}, 'Imports')));
+D.arrows.forEach(a => ta.append(h('tr', {'data-pick': a.id, onclick: () => pick(a.id)},
+  h('td', {class: (V[a.verdict] || V.unchecked)[2]}, (V[a.verdict] || V.unchecked)[0]),
+  h('td', {}, first(a.from_label) + ' → ' + first(a.to_label)), h('td', {}, a.reason || '—'), h('td', {}, String(a.evidence_count)))));
+const wu = document.getElementById('w-undrawn');
+if (!D.undrawn.length) wu.append(h('p', {class: 'empty'}, 'Every import between mapped boxes has an arrow.'));
+else { const t = h('table', {class: 'tbl'}, h('tr', {}, h('th', {}, 'From'), h('th', {}, 'To'), h('th', {}, 'Imports'), h('th', {}, 'Example')));
+  D.undrawn.forEach(u => t.append(h('tr', {}, h('td', {}, first(u.from_label)), h('td', {}, first(u.to_label)), h('td', {}, String(u.count)),
+    h('td', {}, h('code', {}, u.evidence[0].file + ':' + u.evidence[0].line)))));
+  wu.append(t); }
+const tb = document.getElementById('t-boxes');
+tb.append(h('tr', {}, h('th', {}, ''), h('th', {}, 'Box'), h('th', {}, 'Mapped to'), h('th', {}, 'Files')));
+D.nodes.forEach(n => tb.append(h('tr', {'data-pick': n.id, onclick: () => pick(n.id)},
+  h('td', {class: (V[n.verdict] || V.unchecked)[2]}, (V[n.verdict] || V.unchecked)[0]), h('td', {}, first(n.label) || n.id),
+  h('td', {}, [...n.paths, ...n.packages].join(', ') || n.reason || '—'), h('td', {}, String(n.files)))));
+const wanted = new URLSearchParams(location.hash.slice(1)).get('select');
+if (wanted && (arrows.has(wanted) || nodes.has(wanted))) pick(wanted); else overview();
+})();
+</script>
+</body>
+</html>

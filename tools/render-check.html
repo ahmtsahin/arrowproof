@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Render check</title>
+<style>body{margin:0;background:#fff;font:14px system-ui}#status{padding:8px 12px}#root svg{max-width:100%;height:auto}</style>
+</head>
+<body>
+<div id="status">loading the official Excalidraw library…</div>
+<div id="root"></div>
+<script type="module">
+import { exportToSvg, restore } from "https://esm.sh/@excalidraw/excalidraw@0.18.0?bundle";
+const status = document.getElementById("status");
+const params = new URLSearchParams(location.search);
+const file = params.get("file");
+if (params.get("clean")) status.style.display = "none";
+try {
+  const data = await (await fetch(file)).json();
+  const restored = restore(data, null, null);
+  const kept = restored.elements.length;
+  const svg = await exportToSvg({ elements: restored.elements, appState: { ...restored.appState, exportBackground: true }, files: restored.files || {} });
+  document.getElementById("root").appendChild(svg);
+  const bound = restored.elements.filter(e => e.type === "arrow" && e.startBinding && e.endBinding).length;
+  status.textContent = `OK: ${file} restored ${kept} of ${data.elements.length} elements, ${bound} arrows bound on both ends`;
+  window.__result = { ok: true, kept, total: data.elements.length, bound };
+} catch (err) {
+  status.textContent = "FAILED: " + err.message;
+  window.__result = { ok: false, error: String(err) };
+}
+</script>
+</body>
+</html>

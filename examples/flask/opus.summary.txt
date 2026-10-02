@@ -1,0 +1,14 @@
+arrowproof: examples/flask/opus.spec.json against pallets/flask@d73fa1c
+
+Arrows: 20 checked. ✓ 20 verified
+Boxes: 14 found in the code
+
+In the code but not in the diagram (top 8):
+- "CLI (flask command)" -> "Werkzeug": 3 imports (e.g. src/flask/cli.py:19)
+- "Templating (render_template)" -> "Signals": 2 imports (e.g. src/flask/templating.py:13)
+- "Sans-IO core (App, Scaffold, Blueprint base)" -> "Jinja2": 2 imports (e.g. src/flask/sansio/scaffold.py:11)
+- "Blueprints" -> "Contexts & globals (AppContext, current_app, g, ": 1 import (e.g. src/flask/blueprints.py:8)
+- "CLI (flask command)" -> "Contexts & globals (AppContext, current_app, g, ": 1 import (e.g. src/flask/cli.py:23)
+- "Request / Response wrappers" -> "Contexts & globals (AppContext, current_app, g, ": 1 import (e.g. src/flask/wrappers.py:11)
+- "Sans-IO core (App, Scaffold, Blueprint base)" -> "Contexts & globals (AppContext, current_app, g, ": 1 import (e.g. src/flask/sansio/app.py:23)
+- "Flask app (WSGI app class)" -> "Click": 1 import (e.g. src/flask/app.py:17)

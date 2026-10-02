@@ -1,0 +1,1606 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "arrowproof",
+  "elements": [
+    {
+      "id": "ap-title",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 554.4,
+      "height": 35.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1248976841,
+      "version": 1,
+      "versionNonce": 1226652085,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "arrowproof checks its own diagram",
+      "originalText": "arrowproof checks its own diagram",
+      "fontSize": 28,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-build",
+      "type": "rectangle",
+      "x": 0.0,
+      "y": 83.0,
+      "width": 393.59999999999997,
+      "height": 103.5,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 1372056228,
+      "version": 1,
+      "versionNonce": 403449955,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-build"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-7"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-8"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "build.py: lay out a spec",
+          "paths": [
+            "skills/arrowproof/scripts/build.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-build",
+      "type": "text",
+      "x": 24.0,
+      "y": 101.0,
+      "width": 345.59999999999997,
+      "height": 67.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 799717634,
+      "version": 1,
+      "versionNonce": 209230570,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "build.py: lay out a spec\nskills/arrowproof/scripts/build.\npy",
+      "originalText": "build.py: lay out a spec\nskills/arrowproof/scripts/build.\npy",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-build",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-tests",
+      "type": "rectangle",
+      "x": 441.5999999999999,
+      "y": 94.25,
+      "width": 160,
+      "height": 81.0,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 1176272277,
+      "version": 1,
+      "versionNonce": 1529246226,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-tests"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-10"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-11"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "Tests",
+          "paths": [
+            "tests"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-tests",
+      "type": "text",
+      "x": 494.5999999999999,
+      "y": 112.25,
+      "width": 54.0,
+      "height": 45.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 134838300,
+      "version": 1,
+      "versionNonce": 1211971682,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "Tests\ntests",
+      "originalText": "Tests\ntests",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-tests",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-graph",
+      "type": "rectangle",
+      "x": 649.5999999999999,
+      "y": 83.0,
+      "width": 393.59999999999997,
+      "height": 103.5,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 127992539,
+      "version": 1,
+      "versionNonce": 1329312985,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-graph"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-6"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "graph.py: print the graph",
+          "paths": [
+            "skills/arrowproof/scripts/graph.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-graph",
+      "type": "text",
+      "x": 673.5999999999999,
+      "y": 101.0,
+      "width": 345.59999999999997,
+      "height": 67.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 442292976,
+      "version": 1,
+      "versionNonce": 1066042003,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "graph.py: print the graph\nskills/arrowproof/scripts/graph.\npy",
+      "originalText": "graph.py: print the graph\nskills/arrowproof/scripts/graph.\npy",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-graph",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-explain",
+      "type": "rectangle",
+      "x": 324.79999999999995,
+      "y": 336.5,
+      "width": 393.59999999999997,
+      "height": 103.5,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 1461147819,
+      "version": 1,
+      "versionNonce": 1141860530,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-explain"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-3"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-4"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-5"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-11"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "explain.py: explainer page",
+          "paths": [
+            "skills/arrowproof/scripts/explain.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-explain",
+      "type": "text",
+      "x": 348.79999999999995,
+      "y": 354.5,
+      "width": 345.59999999999997,
+      "height": 67.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 918247488,
+      "version": 1,
+      "versionNonce": 1669086093,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "explain.py: explainer page\nskills/arrowproof/scripts/explai\nn.py",
+      "originalText": "explain.py: explainer page\nskills/arrowproof/scripts/explai\nn.py",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-explain",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-verify",
+      "type": "rectangle",
+      "x": 408.79999999999995,
+      "y": 590.0,
+      "width": 393.59999999999997,
+      "height": 103.5,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 674625912,
+      "version": 1,
+      "versionNonce": 999872393,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-verify"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-0"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-1"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-2"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-3"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-10"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "verify.py: check a diagram",
+          "paths": [
+            "skills/arrowproof/scripts/verify.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-verify",
+      "type": "text",
+      "x": 432.79999999999995,
+      "y": 608.0,
+      "width": 345.59999999999997,
+      "height": 67.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1257484521,
+      "version": 1,
+      "versionNonce": 1983075268,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "verify.py: check a diagram\nskills/arrowproof/scripts/verify\n.py",
+      "originalText": "verify.py: check a diagram\nskills/arrowproof/scripts/verify\n.py",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-verify",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-render",
+      "type": "rectangle",
+      "x": 75.99999999999997,
+      "y": 843.5,
+      "width": 393.59999999999997,
+      "height": 103.5,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 973206041,
+      "version": 1,
+      "versionNonce": 776492205,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-render"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-2"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-4"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-8"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-9"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "render.py: SVG and report",
+          "paths": [
+            "skills/arrowproof/scripts/render.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-render",
+      "type": "text",
+      "x": 99.99999999999997,
+      "y": 861.5,
+      "width": 345.59999999999997,
+      "height": 67.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 643744727,
+      "version": 1,
+      "versionNonce": 533492028,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "render.py: SVG and report\nskills/arrowproof/scripts/render\n.py",
+      "originalText": "render.py: SVG and report\nskills/arrowproof/scripts/render\n.py",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-render",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-codegraph",
+      "type": "rectangle",
+      "x": 629.5999999999999,
+      "y": 843.5,
+      "width": 393.59999999999997,
+      "height": 103.5,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 1705916948,
+      "version": 1,
+      "versionNonce": 386046158,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-codegraph"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-0"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-6"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "codegraph.py: import graph",
+          "paths": [
+            "skills/arrowproof/scripts/codegraph.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-codegraph",
+      "type": "text",
+      "x": 653.5999999999999,
+      "y": 861.5,
+      "width": 345.59999999999997,
+      "height": 67.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1501079115,
+      "version": 1,
+      "versionNonce": 1674671377,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "codegraph.py: import graph\nskills/arrowproof/scripts/codegr\naph.py",
+      "originalText": "codegraph.py: import graph\nskills/arrowproof/scripts/codegr\naph.py",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-codegraph",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-node-diagram",
+      "type": "rectangle",
+      "x": 324.79999999999995,
+      "y": 1097.0,
+      "width": 393.59999999999997,
+      "height": 126.0,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "#d0ebff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 3
+      },
+      "seed": 524193278,
+      "version": 1,
+      "versionNonce": 175782304,
+      "isDeleted": false,
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "ap-label-diagram"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-1"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-5"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-7"
+        },
+        {
+          "type": "arrow",
+          "id": "ap-edge-9"
+        }
+      ],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "customData": {
+        "arrowproof": {
+          "label": "diagram.py: Excalidraw files",
+          "paths": [
+            "skills/arrowproof/scripts/diagram.py"
+          ],
+          "verdict": "ok"
+        }
+      }
+    },
+    {
+      "id": "ap-label-diagram",
+      "type": "text",
+      "x": 348.79999999999995,
+      "y": 1115.0,
+      "width": 345.59999999999997,
+      "height": 90.0,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1233565528,
+      "version": 1,
+      "versionNonce": 644780075,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744764,
+      "link": null,
+      "locked": false,
+      "text": "diagram.py: Excalidraw\nfiles\nskills/arrowproof/scripts/diagra\nm.py",
+      "originalText": "diagram.py: Excalidraw\nfiles\nskills/arrowproof/scripts/diagra\nm.py",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "containerId": "ap-node-diagram",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-edge-0",
+      "type": "arrow",
+      "x": 654.6153388963305,
+      "y": 698.0244040317926,
+      "width": 122.76932220733875,
+      "height": 140.95119193641472,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1127850897,
+      "version": 2,
+      "versionNonce": 1641903440,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          122.76932220733875,
+          140.95119193641472
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-verify",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-codegraph",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-1",
+      "type": "arrow",
+      "x": 599.2253077637529,
+      "y": 699.4637314960224,
+      "width": 63.05787921272872,
+      "height": 391.6661487024834,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 1879343460,
+      "version": 2,
+      "versionNonce": 1198458558,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -21.62530776375297,
+          195.78626850397757
+        ],
+        [
+          -63.05787921272872,
+          391.6661487024834
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-verify",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-diagram",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-2",
+      "type": "arrow",
+      "x": 532.8885201777848,
+      "y": 697.1356975208279,
+      "width": 187.37704035556976,
+      "height": 142.72860495834425,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1566471825,
+      "version": 2,
+      "versionNonce": 1230563834,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -187.37704035556976,
+          142.72860495834425
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-verify",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-render",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-3",
+      "type": "arrow",
+      "x": 540.635182311577,
+      "y": 445.69546090458067,
+      "width": 45.92963537684591,
+      "height": 138.6090781908386,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 618341637,
+      "version": 2,
+      "versionNonce": 1694566832,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          45.92963537684591,
+          138.6090781908386
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-explain",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-verify",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-4",
+      "type": "arrow",
+      "x": 472.5846611036693,
+      "y": 444.52440403179264,
+      "width": 193.40996886742232,
+      "height": 393.0118644721849,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 2104909469,
+      "version": 2,
+      "versionNonce": 1880074284,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -171.78466110366935,
+          197.22559596820736
+        ],
+        [
+          -193.40996886742232,
+          393.0118644721849
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-explain",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-render",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-5",
+      "type": "arrow",
+      "x": 484.6871176031097,
+      "y": 445.0304349976436,
+      "width": 164.79999999999995,
+      "height": 645.9695650023564,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 253544329,
+      "version": 2,
+      "versionNonce": 1757400422,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -127.88711760310974,
+          196.71956500235638
+        ],
+        [
+          36.91288239689021,
+          450.2195650023564
+        ],
+        [
+          36.91288239689021,
+          645.9695650023564
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-explain",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-diagram",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-6",
+      "type": "arrow",
+      "x": 841.8452533930953,
+      "y": 192.48141324251614,
+      "width": 28.0,
+      "height": 645.0548552614614,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 897911925,
+      "version": 2,
+      "versionNonce": 673767655,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -15.445253393095413,
+          195.76858675748386
+        ],
+        [
+          12.554746606904587,
+          449.26858675748383
+        ],
+        [
+          -9.070561156848385,
+          645.0548552614614
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-graph",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-codegraph",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-7",
+      "type": "arrow",
+      "x": 201.3547466069046,
+      "y": 192.48141324251614,
+      "width": 373.8940057279708,
+      "height": 901.7003351828863,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 1625947776,
+      "version": 2,
+      "versionNonce": 730407202,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          15.445253393095356,
+          195.76858675748386
+        ],
+        [
+          -12.554746606904644,
+          449.26858675748383
+        ],
+        [
+          -177.35474660690465,
+          702.7685867574838
+        ],
+        [
+          196.53925912106615,
+          901.7003351828863
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-build",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-diagram",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-8",
+      "type": "arrow",
+      "x": 214.03784019948475,
+      "y": 192.2472696127552,
+      "width": 58.76215980051521,
+      "height": 645.2889988912224,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 326384299,
+      "version": 2,
+      "versionNonce": 1493135432,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          58.76215980051521,
+          196.0027303872448
+        ],
+        [
+          30.762159800515207,
+          449.5027303872448
+        ],
+        [
+          52.38746756426818,
+          645.2889988912224
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-build",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-render",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-9",
+      "type": "arrow",
+      "x": 325.54118473503195,
+      "y": 951.3723016824748,
+      "width": 132.745392569596,
+      "height": 141.2553966350505,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1050040258,
+      "version": 2,
+      "versionNonce": 752002366,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          132.745392569596,
+          141.2553966350505
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-render",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-diagram",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-10",
+      "type": "arrow",
+      "x": 565.5518709251427,
+      "y": 179.532151445031,
+      "width": 204.84812907485718,
+      "height": 405.4374135573254,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": {
+        "type": 2
+      },
+      "seed": 84196940,
+      "version": 2,
+      "versionNonce": 1276399591,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          204.84812907485718,
+          208.717848554969
+        ],
+        [
+          76.96101147174738,
+          405.4374135573254
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-tests",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-verify",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-edge-11",
+      "type": "arrow",
+      "x": 521.5999999999999,
+      "y": 181.25,
+      "width": 0.0,
+      "height": 149.25,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1434982633,
+      "version": 2,
+      "versionNonce": 1066600998,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          149.25
+        ]
+      ],
+      "lastCommittedPoint": null,
+      "startBinding": {
+        "elementId": "ap-node-tests",
+        "focus": 0,
+        "gap": 6
+      },
+      "endBinding": {
+        "elementId": "ap-node-explain",
+        "focus": 0,
+        "gap": 6
+      },
+      "startArrowhead": null,
+      "endArrowhead": "arrow",
+      "elbowed": false,
+      "customData": {
+        "arrowproof": {
+          "kind": "uses",
+          "verdict": "verified",
+          "evidence": 1
+        }
+      }
+    },
+    {
+      "id": "ap-2374c9df6a",
+      "type": "text",
+      "x": 0,
+      "y": -56,
+      "width": 108.0,
+      "height": 22.5,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1803817088,
+      "version": 1,
+      "versionNonce": 200995868,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "text": "arrowproof",
+      "originalText": "arrowproof",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "ap-8af1d69ed6",
+      "type": "text",
+      "x": 136.0,
+      "y": -56,
+      "width": 140.4,
+      "height": 22.5,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "seed": 1018118421,
+      "version": 1,
+      "versionNonce": 1496886435,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1790945744832,
+      "link": null,
+      "locked": false,
+      "text": "✓ 12 verified",
+      "originalText": "✓ 12 verified",
+      "fontSize": 18,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": 20
+  },
+  "files": {}
+}
